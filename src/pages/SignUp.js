@@ -1,27 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
-    View,
-    ScrollView,
     Text,
+    View,
     StyleSheet,
     TouchableOpacity,
     TextInput,
     Image,
-    Alert
+    Alert,
+    KeyboardAvoidingView
 } from 'react-native';
 
 import firebase from '../data/firebaseConnection';
 import logo from '../resources/img/geafom-logo.png';
 
-export default class Cadastro extends Component {
-
-    static navigationOptions = {
-        title: 'Cadastro',
-        headerStyle: {
-            backgroundColor: "#91AEC1"
-        },
-        headerTintColor: "#F0F3BD"
-    }
+class SignUp extends React.Component {
 
     constructor(props) {
         super(props);
@@ -64,67 +56,65 @@ export default class Cadastro extends Component {
 
     render() {
         return (
-            <ScrollView style={styles.container}>
-
+            <KeyboardAvoidingView style={styles.container} behavior="padding">
                 <View style={styles.logoArea}>
                     <Image source={logo} style={styles.logoGeafom} />
+
+                    <Text style={styles.label}>FACE</Text>
                 </View>
 
-                <View style={styles.inputArea}>
-                    <Text style={styles.txtInput}>Nome completo</Text>
+
+                <View style={styles.form}>
                     <TextInput value={this.state.nome}
-                        onChangeText={(nome) => this.setState({ nome: nome })}
+                        onChangeText={(nome) => this.setState({ nome })}
                         style={styles.input}
                         placeholder="Nome completo"
+                        placeholderTextColor='lightgray'
                     />
-                    <Text style={styles.txtInput}>E-mail</Text>
+
                     <TextInput value={this.state.email}
-                        onChangeText={(email) => this.setState({ email: email })}
+                        onChangeText={(email) => this.setState({ email })}
                         style={styles.input}
                         placeholder="E-mail"
                         autoCapitalize='none'
+                        placeholderTextColor='lightgray'
                     />
-                    <Text style={styles.txtInput}>Senha</Text>
+
                     <TextInput value={this.state.senha}
-                        onChangeText={(senha) => this.setState({ senha: senha })}
+                        onChangeText={(senha) => this.setState({ senha })}
                         style={styles.input}
                         placeholder="Senha"
                         secureTextEntry={true}
                         autoCapitalize='none'
+                        placeholderTextColor='lightgray'
                     />
-                </View>
 
-                <View style={styles.btnArea}>
                     <TouchableOpacity onPress={this.cadastrar} style={styles.btn}>
-                        <Text style={styles.txtBtn}>CADASTRAR</Text>
+                        <Text style={styles.btnText}>CADASTRAR-SE</Text>
                     </TouchableOpacity>
                 </View>
 
-            </ScrollView>
+            </KeyboardAvoidingView>
         );
+
     }
 }
+
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#508CA4",
-        flex: 1
+        flex: 1,
+        backgroundColor: '#508CA4'
     },
     btn: {
-        backgroundColor: "#91AEC1",
-        alignItems: "center",
-        justifyContent: "center",
-        width: 200,
-        height: 40,
-        margin: 20,
-        borderRadius: 10
+        height: 52,
+        backgroundColor: '#f7a219',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 20
     },
-    txtBtn: {
-        color: "#F0F3BD",
-        fontSize: 18
-    },
-    btnArea: {
-        alignItems: "center",
-        justifyContent: "center"
+    btnText: {
+        fontSize: 16,
+        color: 'lightgray'
     },
     logoGeafom: {
         margin: 20,
@@ -134,25 +124,34 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    inputArea: {
-        marginTop: 20,
-        marginBottom: 15
-    },
     input: {
-        backgroundColor: "#E0DFD5",
-        color: "#313638",
-        padding: 5,
-        height: 40,
+        borderWidth: 1,
+        borderColor: '#dcdcdc59',
+        paddingHorizontal: 20,
+        borderRadius: 6,
+        fontSize: 16,
+        color: 'lightgray',
+        height: 44,
         marginBottom: 20,
-        marginLeft: 20,
-        marginRight: 20,
-        fontSize: 16
+        backgroundColor: '#dcdcdc59'
     },
-    txtInput: {
-        color: "#F0F3BD",
-        fontSize: 20,
-        marginBottom: 8,
-        marginLeft: 20,
-        marginRight: 20
+    label: {
+        fontSize: 30,
+        color: "#555",
+        marginBottom: 25,
+        alignSelf: 'center'
+
+    }, text: {
+        fontSize: 13,
+        color: 'lightgray',
+        alignSelf: 'center',
+        marginTop: 8
+    },
+    form: {
+        alignSelf: 'stretch',
+        paddingHorizontal: 30,
+        marginTop: 30
     }
 });
+
+export default (SignUp);
