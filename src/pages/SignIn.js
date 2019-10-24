@@ -19,16 +19,46 @@ class SignIn extends React.Component {
         super(props);
         this.state = {
             email: 'gui-negrini@hotmail.com',
-            senha: '123456'
+            senha: '123456',
+            errorUser: false,
+            errorPass: false
         }
         this.entrar = this.entrar.bind(this);
         this.resetSenha = this.resetSenha.bind(this);
+        this.handleError = this.handleError.bind(this);
+    }
+
+    handleError(e){
+        switch(e.code) {
+            case 'auth/user-not-found':
+                this.setState({errorUser:true});
+                Alert.alert('Endereço de e-mail não encontrado', 'Confira o endereço de e-mail digitado.');
+                break;
+            case 'auth/wrong-password':
+                this.setState({errorPass:true});
+                Alert.alert('Senha incorreta', 'Confira a senha digitada.');
+                break;
+            case 'auth/invalid-email':
+                this.setState({errorUser:true});
+                Alert.alert('Endereço de e-mail inválido', 'Por favor, insira um endereço de e-mail válido.');
+                break;
+            case 'auth/too-many-requests':
+                Alert.alert('Tentativas de login excedidas', 'Confira atentamente seu endereço de e-mail e sua senha antes de tentar novamente.');
+                break;
+            default:
+                alert(e.code);
+        }
     }
 
     async entrar() {
-        if (this.state.email != '' && this.state.senha != '') {
+        this.setState({errorName:false});
+        this.setState({errorUser:false});
+        this.setState({errorPass:false});
 
-            let user = await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.senha);
+        if (this.state.email != '' && this.state.senha != '') {
+            await firebase.auth().signOut();
+            let user = await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.senha)
+            .catch(error => this.handleError(error));
 
             firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
@@ -40,6 +70,8 @@ class SignIn extends React.Component {
                 }
             })
         } else {
+            this.setState({errorUser:this.state.email===''});
+            this.setState({errorPass:this.state.senha===''});
             Alert.alert('Campos em branco', 'Por favor, preencha todos os campos.');
         }
     }
@@ -50,9 +82,9 @@ class SignIn extends React.Component {
                 .then(() => {
                     Alert.alert('Nova senha', 'Um e-mail para redefinição de senha foi enviado para ' + this.state.email);
                 })
-                .catch((error) => {
-                    alert(error.code);
-                })
+                .catch(error => this.handleError(error));
+        }else{
+            Alert.alert('Nova senha', 'Por favor, digite o e-mail cadastrado para recuperar sua senha.')
         }
     }
 
@@ -72,7 +104,7 @@ class SignIn extends React.Component {
 
                     <TextInput value={this.state.email}
                         onChangeText={(email) => this.setState({ email })}
-                        style={styles.input}
+                        style={this.state.errorUser ? styles.error:styles.input}
                         placeholder="E-mail"
                         autoCapitalize='none'
                         placeholderTextColor='lightgray'
@@ -80,7 +112,7 @@ class SignIn extends React.Component {
 
                     <TextInput value={this.state.senha}
                         onChangeText={(senha) => this.setState({ senha })}
-                        style={styles.input}
+                        style={this.state.errorPass ? styles.error:styles.input}
                         placeholder="Senha"
                         secureTextEntry={true}
                         autoCapitalize='none'
@@ -151,6 +183,18 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         paddingHorizontal: 30,
         marginTop: 30
+    },
+    error: {
+        borderWidth: 2,
+        borderColor: '#a49251',
+        paddingHorizontal: 20,
+        borderRadius: 6,
+        fontSize: 16,
+        color: 'lightgray',
+        height: 44,
+        marginBottom: 20,
+        backgroundColor: '#dcdcdc59',
+
     }
 });
 

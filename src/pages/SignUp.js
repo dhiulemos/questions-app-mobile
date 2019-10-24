@@ -20,36 +20,75 @@ class SignUp extends React.Component {
         this.state = {
             nome: '',
             email: '',
-            senha: ''
+            senha: '',
+            errorName: false,
+            errorUser: false,
+            errorPass: false
         }
 
         firebase.auth().signOut();
         this.cadastrar = this.cadastrar.bind(this);
+        this.handleError = this.handleError.bind(this);
+    }
+
+    handleError(e){
+        switch(e.code) {
+            case 'auth/invalid-email':
+                this.setState({errorUser:true});
+                Alert.alert('Endereço de e-mail inválido', 'Por favor, insira um endereço de e-mail válido.');
+                break;
+            case 'auth/weak-password':
+                this.setState({errorPass:true});
+                Alert.alert('Senha fraca', 'Sua senha deve conter pelo menos 6 caracteres.');
+                break;
+            case 'auth/email-already-in-use':
+                this.setState({errorUser:true});
+                Alert.alert('E-mail já cadastrado', 'O endereço de e-mail já está em uso. Você pode recuperar sua senha.');
+                break;
+            case 'auth/too-many-requests':
+                Alert.alert('Tentativas de cadastro excedidas', 'Confira atentamente seu endereço de e-mail e sua senha antes de tentar novamente.');
+                break;
+            default:
+                alert(e.code);
+        }
     }
 
     cadastrar() {
-        if (this.state.nome != '' && this.state.email != '' && this.state.senha != '') {
-            firebase.auth().onAuthStateChanged((user) => {
-                if (user) {
-                    firebase.database().ref('usuarios').child(user.uid).set({
-                        nome: this.state.nome,
-                        conta: 'aluno'
-                    })
-                }
-            })
-            firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.senha)
-                .then(() => {
-                    firebase.auth().currentUser.sendEmailVerification()
-                        .then(() => {
-                            Alert.alert('Verificação', 'E-mail de verificação enviado para ' + this.state.email);
-                            this.props.navigation.navigate('Login');
 
+        this.setState({errorName:false});
+        this.setState({errorUser:false});
+        this.setState({errorPass:false});
+
+        if (this.state.nome != '' && this.state.email != '' && this.state.senha != '') {
+            const regName = /^[a-zA-ZéúíóáÉÚÍÓÁèùìòàçÇÈÙÌÒÀõãñÕÃÑêûîôâÊÛÎÔÂëÿüïöäËYÜÏÖÄ\-\ \s]+$/;
+            if(!regName.test(this.state.nome)){
+                this.setState({errorName:true});
+                Alert.alert('Nome inválido', 'Por favor, verifique se o nome contém apenas letras.');
+            }else{
+                firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.senha)
+                    .then(() => {
+                        firebase.auth().currentUser.sendEmailVerification()
+                            .then(() => {
+                                Alert.alert('Verificação', 'E-mail de verificação enviado para ' + this.state.email);
+                                this.props.navigation.navigate('Login');
+                            })
+                    })
+                    .catch(error => this.handleError(error)
+                    )
+
+                firebase.auth().onAuthStateChanged((user) => {
+                    if (user) {
+                        firebase.database().ref('usuarios').child(user.uid).set({
+                            nome: this.state.nome,
+                            conta: 'aluno'
                         })
+                    }
                 })
-                .catch((error => {
-                    alert(error.code);
-                }))
+            }
         } else {
+            this.setState({errorName:this.state.nome===''});
+            this.setState({errorUser:this.state.email===''});
+            this.setState({errorPass:this.state.senha===''});
             Alert.alert('Campos em branco', 'Por favor, preencha todos os campos.');
         }
     }
@@ -67,14 +106,14 @@ class SignUp extends React.Component {
                 <View style={styles.form}>
                     <TextInput value={this.state.nome}
                         onChangeText={(nome) => this.setState({ nome })}
-                        style={styles.input}
+                        style={this.state.errorName ? styles.error:styles.input}
                         placeholder="Nome completo"
                         placeholderTextColor='lightgray'
                     />
 
                     <TextInput value={this.state.email}
                         onChangeText={(email) => this.setState({ email })}
-                        style={styles.input}
+                        style={this.state.errorUser ? styles.error:styles.input}
                         placeholder="E-mail"
                         autoCapitalize='none'
                         placeholderTextColor='lightgray'
@@ -82,7 +121,7 @@ class SignUp extends React.Component {
 
                     <TextInput value={this.state.senha}
                         onChangeText={(senha) => this.setState({ senha })}
-                        style={styles.input}
+                        style={this.state.errorPass ? styles.error:styles.input}
                         placeholder="Senha"
                         secureTextEntry={true}
                         autoCapitalize='none'
@@ -151,6 +190,18 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         paddingHorizontal: 30,
         marginTop: 30
+    },
+    error: {
+        borderWidth: 2,
+        borderColor: '#a49251',
+        paddingHorizontal: 20,
+        borderRadius: 6,
+        fontSize: 16,
+        color: 'lightgray',
+        height: 44,
+        marginBottom: 20,
+        backgroundColor: '#dcdcdc59',
+
     }
 });
 
