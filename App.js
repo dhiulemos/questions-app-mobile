@@ -7,6 +7,9 @@ import Dashboard from './src/pages/Dashboard';
 import SignIn from './src/pages/SignIn';
 import SignUp from './src/pages/SignUp';
 import Gallery from './src/pages/Gallery';
+import Level from './src/pages/Level';
+import HardQuestions from './src/pages/HardQuestions';
+import EndGame from './src/pages/EndGame'
 
 //Não exibir warnings
 console.disableYellowBox = true
@@ -47,6 +50,12 @@ const AppNavigator = createStackNavigator({
     screen: Dashboard
   }, Gallery: {
     screen: Gallery
+  }, Level: {
+    screen: Level
+  }, HardQuestions: {
+    screen: HardQuestions
+  }, EndGame: {
+    screen: EndGame
   }
 }, {
   initialRouteName: 'Home',

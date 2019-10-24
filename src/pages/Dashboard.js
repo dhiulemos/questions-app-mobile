@@ -16,12 +16,18 @@ export default class Dashboard extends Component {
                     }}
                 />
                 <View style={styles.containerButton}>
-                    <TouchableOpacity style={styles.dashButtonFirst}>
-                        <Text style={styles.dashButtonTextFirst}>QUIZ</Text>
+                    <TouchableOpacity style={styles.dashButtonFirst}
+                        onPress={() => this.props.navigation.navigate('Level')}>
+                        <Text style={styles.dashButtonTextFirst}>
+                            QUIZ
+                        </Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.dashButtonSecond}>
-                        <Text style={styles.dashButtonTextSecond} onPress={() => this.props.navigation.navigate('Gallery')}>GALERIA</Text>
+                    <TouchableOpacity style={styles.dashButtonSecond}
+                        onPress={() => this.props.navigation.navigate('Gallery')}>
+                        <Text style={styles.dashButtonTextSecond}>
+                            GALERIA
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>
