@@ -1,28 +1,54 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
-import { Header } from 'react-native-elements';
-import { widthPercentageToDP, heightPercentageToDP } from 'react-native-responsive-screen'
+import { BackHandler, Alert, View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
+import { Header, Right, Left, Body, Button } from 'native-base';
+import firebase from '../data/firebaseConnection';
 
 export default class Dashboard extends Component {
 
+    onBack = () => {
+        BackHandler.addEventListener('hardwareBackPress', () => { return true });
+    }
+
+    signOut = () => {
+        Alert.alert(
+            'Sair',
+            'Quer sair do aplicativo?',
+            [
+                {
+                    text: 'Cancelar',
+                    onPress: () => { },
+                    style: 'cancel',
+                },
+                { text: 'Sim', onPress: () => { firebase.auth().signOut(); return this.props.navigation.navigate('Home') } },
+            ],
+            { cancelable: false },
+        );
+    }
+
     render() {
         return (
-            <View style={styles.container}>
-                <Header
-                    centerComponent={{ text: 'FACE', style: { color: '#f7a219', fontSize: 25 } }}
-                    containerStyle={{
-                        backgroundColor: '#508CA4',
-                        height: heightPercentageToDP('8%')
-                    }}
-                />
-                <View style={styles.containerButton}>
+            <View style={styles.container} onBack={this.onBack()}>
+                <Header style={styles.header}>
+                    <Left style={styles.left} />
+                    <Body style={styles.body}>
+                        <Text style={styles.face}>FACE</Text>
+                    </Body>
+                    <Right style={styles.right}>
+                        <Button transparent onPress={() => this.signOut()}>
+                            <Text style={styles.sair}>Sair</Text>
+                        </Button>
+                    </Right>
+                </Header>
+                <View style={styles.containerButtonFirst}>
                     <TouchableOpacity style={styles.dashButtonFirst}
                         onPress={() => this.props.navigation.navigate('Level')}>
                         <Text style={styles.dashButtonTextFirst}>
                             QUIZ
                         </Text>
                     </TouchableOpacity>
-
+                </View>
+                <View style={styles.containerButtonSecond}>
                     <TouchableOpacity style={styles.dashButtonSecond}
                         onPress={() => this.props.navigation.navigate('Gallery')}>
                         <Text style={styles.dashButtonTextSecond}>
@@ -31,49 +57,81 @@ export default class Dashboard extends Component {
                     </TouchableOpacity>
                 </View>
             </View>
+
         );
     }
 }
 
-
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#508CA4",
-        flex: 1,
+        flex: 2,
+        justifyContent: 'center',
         alignItems: 'center',
-        height: heightPercentageToDP('100%'),
-        width: widthPercentageToDP('100%')
+        backgroundColor: "#508CA4",
     },
-    containerButton: {
+    header: {
+        backgroundColor: "#508CA4",
+        width: '100%',
+        height: Dimensions.get('window').height / 14,
+
+    },
+    containerButtonFirst: {
         flex: 1,
-        marginTop: heightPercentageToDP('13%'),
-        marginBottom: heightPercentageToDP('13%'),
-        width: widthPercentageToDP('77%'),
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    containerButtonSecond: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'center'
     },
     dashButtonFirst: {
-        flex: 2,
         backgroundColor: '#f49f1a',
         justifyContent: 'center',
-        borderRadius: 20,
         alignItems: 'center',
-        marginBottom: 35
+        borderRadius: 20,
+        height: wp('60%'),
+        width: wp('80%'),
+        marginTop: wp('5%'),
 
     },
     dashButtonSecond: {
-        flex: 2,
-        backgroundColor: 'lightgray',
+        backgroundColor: '#fafafa',
         justifyContent: 'center',
-        borderRadius: 20,
         alignItems: 'center',
-        marginTop: 35
-
+        borderRadius: 20,
+        height: wp('60%'),
+        width: wp('80%'),
+        marginTop: wp('7%'),
     },
     dashButtonTextFirst: {
-        color: 'lightgray',
+        color: '#fafafa',
         fontSize: 40
     },
     dashButtonTextSecond: {
         color: '#f49f1a',
         fontSize: 40
+    },
+    sair: {
+        color: '#fff',
+        fontSize: 14,
+        fontWeight: 'bold'
+    },
+    left: {
+        flex: 1
+    },
+    right: {
+        flex: 1
+    },
+    body: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    face: {
+        fontSize: 20,
+        color: '#fff'
     }
 });
+
+

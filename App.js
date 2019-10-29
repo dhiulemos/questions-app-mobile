@@ -9,7 +9,9 @@ import SignUp from './src/pages/SignUp';
 import Gallery from './src/pages/Gallery';
 import Level from './src/pages/Level';
 import HardQuestions from './src/pages/HardQuestions';
+import EasyQuestions from './src/pages/EasyQuestions';
 import EndGame from './src/pages/EndGame'
+
 
 //Não exibir warnings
 console.disableYellowBox = true
@@ -21,18 +23,14 @@ const TabNavigator = createMaterialTopTabNavigator({
   Cadastro: SignUp
 }, {
   tabBarOptions: {
-
     activeTintColor: 'white',
     pressColor: 'lightgray',
     pressOpacity: 'lightgray',
-    inactiveTintColor: 'lightgray',
     labelStyle: {
-      fontSize: 12,
+      fontSize: 14,
     },
     style: {
       backgroundColor: '#508CA4',
-      borderTopWidth: 1,
-      borderTopColor: '#508CA4'
     },
     indicatorStyle: {
       backgroundColor: 'lightgray',
@@ -48,13 +46,20 @@ const AppNavigator = createStackNavigator({
   },
   Dashboard: {
     screen: Dashboard
-  }, Gallery: {
+  },
+  Gallery: {
     screen: Gallery
-  }, Level: {
+  },
+  Level: {
     screen: Level
-  }, HardQuestions: {
+  },
+  HardQuestions: {
     screen: HardQuestions
-  }, EndGame: {
+  },
+  EasyQuestions: {
+    screen: EasyQuestions
+  },
+  EndGame: {
     screen: EndGame
   }
 }, {
@@ -62,11 +67,12 @@ const AppNavigator = createStackNavigator({
   headerLayoutPreset: 'center',
   headerBackTitleVisible: false,
   defaultNavigationOptions: {
+
     headerStyle: {
       backgroundColor: '#508CA4',
-      height: 5,
+      height: 1
     },
-    headerLeft: null
+    headerLeft: null,
   }
 }
 );

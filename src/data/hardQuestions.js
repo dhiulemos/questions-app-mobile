@@ -1,6 +1,7 @@
 const questions = [
 
     {
+        img: require('../resources/questionsImages/nomear_musculos.png'),
         question: "Nomeie e identifique os músculos responsáveis pela mastigação:",
         answers: [
             { id: '1', text: '1 pterigoideo lateral, 2 temporal, 3 masseter e 4 pterigoideo medial' },

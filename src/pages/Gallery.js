@@ -1,16 +1,11 @@
 
 import React, { Component } from 'react';
 import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    TouchableWithoutFeedback,
-    Modal,
-    ScrollView
+    AppRegistry, StyleSheet, Text, View, TouchableWithoutFeedback,
+    Modal, ScrollView, SafeAreaView, BackHandler, Dimensions
 } from 'react-native';
-import { widthPercentageToDP, heightPercentageToDP } from 'react-native-responsive-screen';
-import { Header } from 'react-native-elements';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Header, Right, Left, Body, Icon, Button } from 'native-base';
 
 import ImageElement from '../components/ImageElement';
 
@@ -43,6 +38,11 @@ export default class ImageGallery extends Component {
         return this.state.modalImage
     }
 
+    onBack = () => {
+        BackHandler.addEventListener('hardwareBackPress', () => { return false });
+    }
+
+
     render() {
 
         let images = this.state.images.map((val, key) => {
@@ -54,15 +54,18 @@ export default class ImageGallery extends Component {
             </TouchableWithoutFeedback>
         })
         return (
-            <View style={styles.containerAll}>
-                <Header
-                    leftComponent={{ icon: 'home', color: '#fff' }}
-                    centerComponent={{ text: 'GALERIA', style: { color: '#f7a219', fontSize: 25 } }}
-                    containerStyle={{
-                        backgroundColor: '#508CA4',
-                        height: heightPercentageToDP('8%')
-                    }}
-                />
+            <SafeAreaView onBack={this.onBack()} style={styles.containerAll}>
+                <Header style={styles.header}>
+                    <Left style={styles.left}>
+                        <Button transparent onPress={() => { this.props.navigation.goBack() }}>
+                            <Icon type='FontAwesome' name='angle-left' style={styles.icon} />
+                        </Button>
+                    </Left>
+                    <Body style={styles.body}>
+                        <Text style={styles.face}>FACE</Text>
+                    </Body>
+                    <Right style={styles.right} />
+                </Header>
 
                 <ScrollView>
                     <View style={styles.container}>
@@ -79,35 +82,35 @@ export default class ImageGallery extends Component {
                         {images}
                     </View>
                 </ScrollView>
-            </View>
+            </SafeAreaView>
+
         )
     }
 }
 
 const styles = StyleSheet.create({
     containerAll: {
-        flex: 1,
+        flex: 2,
         backgroundColor: '#508CA4',
     },
     container: {
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        backgroundColor: '#508CA4'
     },
     imagewrap: {
         margin: 2,
         padding: 2,
-        height: heightPercentageToDP('20%'),
-        width: widthPercentageToDP('40%'),
-        margin: widthPercentageToDP('5%'),
+        height: hp('20%'),
+        width: wp('40%'),
+        margin: wp('5%'),
         backgroundColor: '#fff'
     },
     modal: {
         flex: 1,
-        paddingTop: heightPercentageToDP('18%'),
-        paddingBottom: heightPercentageToDP('18%'),
-        width: widthPercentageToDP('100%'),
+        paddingTop: hp('18%'),
+        paddingBottom: hp('18%'),
+        width: wp('100%'),
         backgroundColor: 'rgba(0, 0, 0, 0.85)',
 
     },
@@ -115,7 +118,31 @@ const styles = StyleSheet.create({
         color: '#ddd',
         fontSize: 18,
         alignSelf: 'flex-end',
-        paddingRight: widthPercentageToDP('4%')
+        paddingRight: wp('4%')
+    },
+    header: {
+        backgroundColor: "#508CA4",
+        width: '100%',
+        height: Dimensions.get('window').height / 14,
+
+    },
+    icon: {
+        color: '#fff',
+    },
+    left: {
+        flex: 1
+    },
+    right: {
+        flex: 1
+    },
+    body: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    face: {
+        fontSize: 20,
+        color: '#fff'
     }
 });
 

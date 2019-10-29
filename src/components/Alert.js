@@ -16,9 +16,9 @@ const styles = StyleSheet.create({
     },
     circle: {
         backgroundColor: "#ff4136",
-        width: screen.width / 3,
-        height: screen.width / 3,
-        borderRadius: screen.width / 3,
+        width: screen.width / 4,
+        height: screen.width / 4,
+        borderRadius: screen.width / 4,
         alignItems: "center",
         justifyContent: "center"
     },
@@ -34,8 +34,8 @@ export const Alert = ({ correct, visible }) => {
     if (!visible) return null;
 
     const icon = correct
-        ? require("../resources/img/checkmark.png")
-        : require("../resources/img/error.png");
+        ? require("../resources/img/check-mark.png")
+        : require("../resources/img/wrong-mark.png");
 
     const circleStyles = [styles.circle];
 

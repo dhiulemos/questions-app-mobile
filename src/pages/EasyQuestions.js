@@ -5,7 +5,8 @@ import { Header, Right, Left, Body, Icon, Button, Footer } from 'native-base';
 import { ButtonAnswer, ButtonContainer } from '../components/ButtonAnswers';
 import { Alert } from '../components/Alert';
 
-class HardQuestions extends Component {
+
+class EasyQuestions extends Component {
     state = {
         correctCount: 0,
         totalCount: this.props.navigation.getParam("questions", []).length,
@@ -39,7 +40,7 @@ class HardQuestions extends Component {
             const nextIndex = this.state.activeQuestionIndex + 1;
 
             if (nextIndex >= this.state.totalCount) {
-                return this.props.navigation.navigate('EndGame', { correct: this.state.correctCount, level: 'HardQuestions' });
+                return this.props.navigation.navigate('EndGame', { correct: this.state.correctCount, level: 'EasyQuestions' });
             }
 
             return {
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
         height: wp('50%'),
         width: wp('90%'),
         resizeMode: 'contain',
-        marginTop: 12
+        marginTop: 10
     },
     btnlabel: {
         width: Dimensions.get('window').width - 20,
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
     }
 });
 
-export default HardQuestions;
+export default EasyQuestions;
 
 
 

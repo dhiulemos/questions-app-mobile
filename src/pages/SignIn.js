@@ -1,13 +1,7 @@
 import React from 'react';
 import {
-    Text,
-    View,
-    StyleSheet,
-    TouchableOpacity,
-    TextInput,
-    Image,
-    Alert,
-    KeyboardAvoidingView
+    Text, View, StyleSheet, TouchableOpacity, TextInput,
+    Image, Alert, KeyboardAvoidingView
 } from 'react-native';
 
 import firebase from '../data/firebaseConnection';
@@ -137,7 +131,7 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 30,
-        color: "#555",
+        color: "#fff",
         marginBottom: 25,
         alignSelf: 'center'
 

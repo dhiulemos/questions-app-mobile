@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 30,
-        color: "#555",
+        color: "#fff",
         marginBottom: 25,
         alignSelf: 'center'
 
