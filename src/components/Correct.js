@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Dimensions, Image } from "react-native";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 
 const screen = Dimensions.get("window");
 
@@ -16,9 +17,9 @@ const styles = StyleSheet.create({
     },
     circle: {
         backgroundColor: "#ff4136",
-        width: screen.width / 4,
-        height: screen.width / 4,
-        borderRadius: screen.width / 4,
+        width: hp('10%'),
+        height: hp('10%'),
+        borderRadius: 50,
         alignItems: "center",
         justifyContent: "center"
     },
@@ -26,11 +27,11 @@ const styles = StyleSheet.create({
         backgroundColor: "#28A125"
     },
     icon: {
-        width: screen.width / 3
+        width: hp('10%')
     }
 });
 
-export const Alert = ({ correct, visible }) => {
+export const Correct = ({ correct, visible }) => {
     if (!visible) return null;
 
     const icon = correct

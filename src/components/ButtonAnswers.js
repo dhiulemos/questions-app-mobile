@@ -1,7 +1,6 @@
 import React from "react";
-import { View, TouchableOpacity, Text, StyleSheet, Dimensions } from "react-native";
-import normalize from "react-native-normalize";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp, heightPercentageToDP } from 'react-native-responsive-screen'
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 
 const styles = StyleSheet.create({
     button: {
@@ -11,21 +10,20 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         paddingVertical: 5,
         paddingHorizontal: 10,
-        width: Dimensions.get('window').width - 20,
+        width: wp('95%'),
         minHeight: hp('8%'),
-        marginTop: hp('3%'),
-
+        marginBottom: hp('3%'),
     },
     text: {
         color: "#fff",
-        fontSize: Dimensions.get('window').width / 20,
+        fontSize: 17,
         textAlign: "center",
     },
     buttonContainer: {
         flexDirection: "row",
         flexWrap: "wrap",
         justifyContent: "center",
-        alignItems: 'center'
+        alignItems: 'flex-start',
     }
 });
 

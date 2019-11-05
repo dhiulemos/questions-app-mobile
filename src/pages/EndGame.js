@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Header, Right, Left, Body, Icon, Button } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 
@@ -106,8 +106,8 @@ const styles = StyleSheet.create({
     },
     header: {
         backgroundColor: "#508CA4",
-        width: '100%',
-        height: Dimensions.get('window').height / 14,
+        width: wp('100%'),
+        height: hp('7%'),
 
     },
     face: {

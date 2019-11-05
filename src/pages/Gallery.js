@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import {
     AppRegistry, StyleSheet, Text, View, TouchableWithoutFeedback,
-    Modal, ScrollView, SafeAreaView, BackHandler, Dimensions
+    Modal, ScrollView, SafeAreaView, BackHandler
 } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Header, Right, Left, Body, Icon, Button } from 'native-base';
@@ -122,9 +122,8 @@ const styles = StyleSheet.create({
     },
     header: {
         backgroundColor: "#508CA4",
-        width: '100%',
-        height: Dimensions.get('window').height / 14,
-
+        width: wp('100%'),
+        height: hp('7%'),
     },
     icon: {
         color: '#fff',

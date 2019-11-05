@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, SafeAreaView, BackHandler, Dimensions } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, SafeAreaView, BackHandler } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Header, Right, Left, Body, Icon, Button } from 'native-base';
 import hardQuestions from '../data/hardQuestions';
@@ -25,7 +25,6 @@ export default class Level extends Component {
         ));
 
         this.shuffle(questions);
-        console.log(questions)
 
         return questions;
     }
@@ -121,8 +120,8 @@ const styles = StyleSheet.create({
     },
     header: {
         backgroundColor: "#508CA4",
-        width: '100%',
-        height: Dimensions.get('window').height / 14,
+        width: wp('100%'),
+        height: hp('7%'),
 
     },
     sair: {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BackHandler, Alert, View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { BackHandler, Alert, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { Header, Right, Left, Body, Button } from 'native-base';
 import firebase from '../data/firebaseConnection';
@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
     },
     header: {
         backgroundColor: "#508CA4",
-        width: '100%',
-        height: Dimensions.get('window').height / 14,
+        width: wp('100%'),
+        height: hp('7%'),
 
     },
     containerButtonFirst: {
